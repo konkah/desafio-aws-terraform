@@ -4,28 +4,28 @@ resource "aws_route_table" "desafio_AWS_private" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.desafio_AWS_clientes.id
+    gateway_id = aws_nat_gateway.desafio_AWS_a.id
   }
 
   tags = var.tags
 }
 
-resource "aws_route_table_association" "desafio_AWS_private_clientes_app" {
-  subnet_id      = aws_subnet.desafio_AWS_clientes_app.id
+resource "aws_route_table_association" "desafio_AWS_private_a_app" {
+  subnet_id      = aws_subnet.desafio_AWS_a_app.id
   route_table_id = aws_route_table.desafio_AWS_private.id
 }
 
-resource "aws_route_table_association" "desafio_AWS_private_clientes_db" {
-  subnet_id      = aws_subnet.desafio_AWS_clientes_db.id
+resource "aws_route_table_association" "desafio_AWS_private_a_db" {
+  subnet_id      = aws_subnet.desafio_AWS_a_db.id
   route_table_id = aws_route_table.desafio_AWS_private.id
 }
 
-resource "aws_route_table_association" "desafio_AWS_private_produtos_app" {
-  subnet_id      = aws_subnet.desafio_AWS_produtos_app.id
+resource "aws_route_table_association" "desafio_AWS_private_c_app" {
+  subnet_id      = aws_subnet.desafio_AWS_c_app.id
   route_table_id = aws_route_table.desafio_AWS_private.id
 }
 
-resource "aws_route_table_association" "desafio_AWS_private_produtos_db" {
-  subnet_id      = aws_subnet.desafio_AWS_produtos_db.id
+resource "aws_route_table_association" "desafio_AWS_private_c_db" {
+  subnet_id      = aws_subnet.desafio_AWS_c_db.id
   route_table_id = aws_route_table.desafio_AWS_private.id
 }

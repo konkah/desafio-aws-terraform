@@ -10,12 +10,12 @@ resource "aws_route_table" "desafio_AWS_public" {
   tags = var.tags
 }
 
-resource "aws_route_table_association" "desafio_AWS_public_clientes" {
-  subnet_id      = aws_subnet.desafio_AWS_clientes_public.id
+resource "aws_route_table_association" "desafio_AWS_public_a" {
+  subnet_id      = aws_subnet.desafio_AWS_a_public.id
   route_table_id = aws_route_table.desafio_AWS_public.id
 }
 
-resource "aws_route_table_association" "desafio_AWS_public_produtos" {
-  subnet_id      = aws_subnet.desafio_AWS_produtos_public.id
+resource "aws_route_table_association" "desafio_AWS_public_c" {
+  subnet_id      = aws_subnet.desafio_AWS_c_public.id
   route_table_id = aws_route_table.desafio_AWS_public.id
 }

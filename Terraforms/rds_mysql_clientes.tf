@@ -13,7 +13,10 @@ resource "aws_db_instance" "desafio_AWS_clientes" {
 
 resource "aws_db_subnet_group" "desafio_AWS_clientes" {
     name = "clientes_group"
-    subnet_ids = [ aws_subnet.desafio_AWS_clientes_db.id ]
+    subnet_ids = [ 
+                    aws_subnet.desafio_AWS_a_db.id,
+                    aws_subnet.desafio_AWS_c_db.id
+                 ]
 
     tags = var.tags
 }
