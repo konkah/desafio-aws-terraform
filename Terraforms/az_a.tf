@@ -24,7 +24,33 @@ resource "aws_subnet" "desafio_AWS_a_public" {
   tags = var.tags
 }
 
-# public subnet A APP
+data "aws_ami" "bastion_a" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
+resource "aws_instance" "desafio_AWS_a" {
+  ami           = data.aws_ami.bastion_a.id
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.desafio_AWS_a_public.id
+
+  tags = {
+    Name = "desafio_AWS_bastion_a"
+  }
+}
+
+# private subnet A APP
 resource "aws_subnet" "desafio_AWS_a_app" {
   vpc_id     = aws_vpc.desafio_AWS.id
   cidr_block = "10.0.4.0/24"
@@ -33,7 +59,7 @@ resource "aws_subnet" "desafio_AWS_a_app" {
   tags = var.tags
 }
 
-# public subnet A DB
+# private subnet A DB
 resource "aws_subnet" "desafio_AWS_a_db" {
   vpc_id     = aws_vpc.desafio_AWS.id
   cidr_block = "10.0.6.0/24"
