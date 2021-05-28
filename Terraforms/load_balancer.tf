@@ -6,7 +6,7 @@ resource "aws_lb" "desafio_AWS" {
 
   internal           = false
   load_balancer_type = "application"
-  #security_groups   = [aws_security_group.desafio_AWS_LB.id]
+  security_groups   = [aws_security_group.desafio_AWS_lb.id]
 
   tags = var.tags
 }
@@ -64,4 +64,29 @@ resource "aws_lb_listener_rule" "desafio_AWS_produtos" {
       ]
     }
   }
+}
+
+resource "aws_security_group" "desafio_AWS_lb" {
+  description = "Load Balancer"
+  vpc_id = aws_vpc.desafio_AWS.id
+  
+  ingress {
+    description = "HTTP Port"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "HTTP_AWS_lb"
+  }
+
 }

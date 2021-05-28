@@ -11,6 +11,10 @@ resource "aws_launch_template" "desafio_AWS_clientes" {
     }
   }
 
+  vpc_security_group_ids = [ 
+    aws_security_group.desafio_AWS_clientes.id 
+  ]
+
   tags = var.tags
 }
 
@@ -36,4 +40,29 @@ resource "aws_lb_target_group" "desafio_AWS_clientes" {
   vpc_id   = aws_vpc.desafio_AWS.id
 
   tags = var.tags
+}
+
+resource "aws_security_group" "desafio_AWS_clientes" {
+  description = "API - Clientes"
+  vpc_id = aws_vpc.desafio_AWS.id
+  
+  ingress {
+    description = "HTTP Port"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/24"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "HTTP_AWS_autoscaling_clientes"
+  }
+
 }
