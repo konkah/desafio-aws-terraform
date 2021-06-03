@@ -25,6 +25,42 @@ resource "aws_instance" "desafio_AWS_a" {
   tags = {
     Name = "desafio_AWS_bastion_a"
   }
+
+  provisioner "file" {
+    source      = "../Database/produtos.sql"
+    destination = "/tmp/produtos.sql"
+  }
+
+  provisioner "file" {
+    source      = "../Database/clientes.sql"
+    destination = "/tmp/clientes.sql"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "sudo apt upgrade -y",
+      "sudo apt install -y mysql-client",
+      "mysql -u${aws_db_instance.desafio_AWS_clientes.username} -p${aws_db_instance.desafio_AWS_clientes.password} -h${aws_db_instance.desafio_AWS_clientes.address} < /tmp/clientes.sql",
+      "mysql -u${aws_db_instance.desafio_AWS_produtos.username} -p${aws_db_instance.desafio_AWS_produtos.password} -h${aws_db_instance.desafio_AWS_produtos.address} < /tmp/produtos.sql",
+    ]
+  }
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = self.public_ip
+    private_key = file("../Keys/bastion_key")
+  }
+
+  depends_on = [
+    aws_db_instance.desafio_AWS_clientes,
+    aws_db_instance.desafio_AWS_produtos
+  ]
+}
+
+output "bastion_a" {
+  value = aws_instance.desafio_AWS_a.public_ip
 }
 
 resource "aws_instance" "desafio_AWS_c" {
@@ -40,6 +76,10 @@ resource "aws_instance" "desafio_AWS_c" {
   }
 }
 
+output "bastion_c" {
+  value = aws_instance.desafio_AWS_c.public_ip
+}
+
 resource "aws_security_group" "allow_ssh_bastion" {
   description = "Allow SSH Bastion Host"
   vpc_id      = aws_vpc.desafio_AWS.id
@@ -49,7 +89,7 @@ resource "aws_security_group" "allow_ssh_bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["201.82.34.44/32"]
+    cidr_blocks = ["201.82.38.163/32"]
   }
 
   egress {
@@ -66,5 +106,5 @@ resource "aws_security_group" "allow_ssh_bastion" {
 
 resource "aws_key_pair" "bastion_key" {
   key_name   = "bastion_key_pub"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCunkjqDxDDYY8RctcD4SoB3g7xsL/INTI2vNUwIhic6Vb5Gj96s+OOrCrzIJkvl45zgqXDcrtgtDzGr41ZBLP0FTdi0AjvpDJy4H6MH8LltRifuhULy9ysS6ZVmB2hGjJM3jppxnG/stQ8pa+5uDeBLbWb3FgiFZc6wzUdfiI4hdLEWzHwKHydZ/eS70vFqRqTA1Bnfpi5K989T3BGK+61fD700dHxc6ENau4609TKCAtxyG6zA1vw2yDC2F1sZVOdBY5it5TtM6eY8k5aMXuQ6gshtzd35UHxEv/RNbyQZ+CyAD8Wywwp1xDeGfqCKtt4Wo2TcIFHJI5oamvsBf/c6S/JJ2hzYwALQIcSBySKQxlQzfYH4oLZYWT1HqjQ7BVtSdO7eGCpyXX4KyZa2x9Tws0JqHBGGzgZ0Md1oD1Hokco6dOgOm7e5UgsRJLLduqhW+Oecu8no7BKNzuOB9dy/uE0wRNBVgE4UzJWk34I/ek0QKR4AYjXmNu3IbCgzeSQsslDmXvJPZrKTtjJ1ceCKDR6U6rdcWrMQYEHSWp0BOs5861YP1RXeBuB5Ytmh6GVzSom8Jdndk2unJDhzcIBq41VB3k7d1gRjGQ9hpwSN8uF7NAyoAtph7qpLSnSRUOwj6x8ASEHgPaAj1ziYaJJXptyfJWehDF8FC5g4L9VFw== karlos.braga@inmetrics.com"
+  public_key = file("../Keys/bastion_key.pub")
 }
