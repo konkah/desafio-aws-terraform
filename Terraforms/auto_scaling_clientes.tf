@@ -31,6 +31,10 @@ resource "aws_autoscaling_group" "desafio_AWS_clientes" {
     id      = aws_launch_template.desafio_AWS_clientes.id
     version = "$Latest"
   }
+
+  target_group_arns = [ 
+    aws_lb_target_group.desafio_AWS_clientes.arn
+  ]
 }
 
 # look at auto_scaling clientes
