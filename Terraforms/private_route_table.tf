@@ -26,7 +26,7 @@ resource "aws_route_table" "desafio_AWS_private_c" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.desafio_AWS_a.id
+    gateway_id = aws_nat_gateway.desafio_AWS_c.id
   }
 
   tags = var.tags
