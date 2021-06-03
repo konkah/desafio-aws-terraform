@@ -31,7 +31,7 @@ resource "aws_instance" "desafio_AWS_c" {
   ami                         = data.aws_ami.bastion.id
   key_name                    = aws_key_pair.bastion_key.key_name
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.desafio_AWS_a_public.id
+  subnet_id                   = aws_subnet.desafio_AWS_c_public.id
   security_groups             = [aws_security_group.allow_ssh_bastion.id]
   associate_public_ip_address = true
 
