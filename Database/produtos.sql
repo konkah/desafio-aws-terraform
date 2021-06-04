@@ -141,3 +141,8 @@ CREATE TABLE api_tbl_inventarios (
   produto_id int NOT NULL,
   PRIMARY KEY (id)
 );
+
+insert into auth_user
+        (password, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined)
+    values
+        ('pbkdf2_sha256$216000$jX727gAU9ceo$YRJ1NR8K0JT7IX1j8VGBJYGLcL/ydrXp5+Vd2s9idTw=', 1, 'admin', '', '', 'karlos.braga@inmetrics.com.br', 1, 1, now());
