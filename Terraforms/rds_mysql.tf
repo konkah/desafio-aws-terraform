@@ -52,7 +52,7 @@ resource "aws_db_instance" "desafio_AWS_clientes" {
   tags = var.tags
 }
 
-output "rds_clientes" {
+output "CLIENTES_RDS" {
   value = aws_db_instance.desafio_AWS_clientes.address
 }
 
@@ -80,7 +80,7 @@ resource "aws_db_instance" "desafio_AWS_produtos" {
   tags = var.tags
 }
 
-output "rds_produtos" {
+output "PRODUTOS_RDS" {
   value = aws_db_instance.desafio_AWS_produtos.address
 }
 

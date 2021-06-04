@@ -11,6 +11,10 @@ resource "aws_lb" "desafio_AWS" {
   tags = var.tags
 }
 
+output "CLIENTES_API" {
+  value = aws_lb.desafio_AWS.dns_name
+}
+
 resource "aws_lb_listener" "desafio_AWS" {
   port     = 80
   protocol = "HTTP"
