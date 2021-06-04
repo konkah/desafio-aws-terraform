@@ -1,7 +1,7 @@
 resource "aws_lb" "desafio_AWS" {
   subnets = [
-    aws_subnet.desafio_AWS_a_app.id,
-    aws_subnet.desafio_AWS_c_app.id
+    aws_subnet.desafio_AWS_a_public.id,
+    aws_subnet.desafio_AWS_c_public.id
   ]
 
   name               = "kd-load-balancer"
