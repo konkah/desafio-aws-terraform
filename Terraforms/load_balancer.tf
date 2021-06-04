@@ -26,9 +26,9 @@ resource "aws_lb_listener" "desafio_AWS" {
     type = "fixed-response"
 
     fixed_response {
-      content_type = "text/plain"
-      message_body = "Not found"
-      status_code  = "404"
+      content_type = "text/text"
+      message_body = "Endereços disponíveis: clientes_api, enderecos_api, produtos_api, inventarios_api"
+      status_code  = 404
     }
   }
 }
