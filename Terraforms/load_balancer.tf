@@ -45,9 +45,11 @@ resource "aws_lb_listener_rule" "desafio_AWS_clientes" {
   condition {
     path_pattern {
       values = [
-        "/static/*",
         "/clientes_api/*",
-        "/enderecos_api/*"
+        "/enderecos_api/*",
+        "/clientes_static/*",
+        "/clientes_auth/*",
+        "/clientes_admin/*",
       ]
     }
   }
@@ -66,7 +68,10 @@ resource "aws_lb_listener_rule" "desafio_AWS_produtos" {
     path_pattern {
       values = [
         "/produtos_api/*",
-        "/inventarios_api/*"
+        "/inventarios_api/*",
+        "/produtos_static/*",
+        "/produtos_auth/*",
+        "/produtos_admin/*",
       ]
     }
   }
