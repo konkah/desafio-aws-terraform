@@ -27,3 +27,5 @@ python3 -m pip install -U wheel
 python3 -m pip install -r requirements.txt
 
 nohup python3 manage.py runserver
+
+echo "finished" > status.log
