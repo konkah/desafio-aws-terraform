@@ -62,11 +62,11 @@ resource "aws_security_group" "desafio_AWS_produtos" {
   }
 
   ingress {
-    description = "SSH"
+    description = "Bastion"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/24"]
+    cidr_blocks = ["10.0.0.0/23"]
   }
 
   egress {
