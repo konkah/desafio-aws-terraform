@@ -4,9 +4,10 @@ resource "aws_lb" "desafio_AWS" {
     aws_subnet.desafio_AWS_c_app.id
   ]
 
+  name               = "kd-load-balancer"
   internal           = false
   load_balancer_type = "application"
-  security_groups   = [aws_security_group.desafio_AWS_lb.id]
+  security_groups    = [aws_security_group.desafio_AWS_lb.id]
 
   tags = var.tags
 }
