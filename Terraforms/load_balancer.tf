@@ -45,6 +45,7 @@ resource "aws_lb_listener_rule" "desafio_AWS_clientes" {
   condition {
     path_pattern {
       values = [
+        "/static/*",
         "/clientes_api/*",
         "/enderecos_api/*"
       ]
