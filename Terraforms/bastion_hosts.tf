@@ -36,6 +36,11 @@ resource "aws_instance" "desafio_AWS_a" {
     destination = "/tmp/clientes.sql"
   }
 
+  provisioner "file" {
+    source      = "../Keys/bastion_key"
+    destination = "/tmp/bastion_key"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt update",
@@ -43,6 +48,7 @@ resource "aws_instance" "desafio_AWS_a" {
       "sudo apt install -y mysql-client",
       "mysql -u${aws_db_instance.desafio_AWS_clientes.username} -p${aws_db_instance.desafio_AWS_clientes.password} -h${aws_db_instance.desafio_AWS_clientes.address} < /tmp/clientes.sql",
       "mysql -u${aws_db_instance.desafio_AWS_produtos.username} -p${aws_db_instance.desafio_AWS_produtos.password} -h${aws_db_instance.desafio_AWS_produtos.address} < /tmp/produtos.sql",
+      "chmod 600 /tmp/bastion_key",
     ]
   }
 

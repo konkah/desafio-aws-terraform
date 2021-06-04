@@ -1,7 +1,8 @@
 resource "aws_launch_template" "desafio_AWS_clientes" {
   name_prefix   = "app_clientes"
-  image_id      = "ami-0d5eff06f840b45e9"
+  image_id      = "ami-09e67e426f25ce0d7"
   instance_type = "t2.micro"
+  key_name      = aws_key_pair.bastion_key.key_name
 
   tag_specifications {
     resource_type = "instance"
@@ -14,6 +15,8 @@ resource "aws_launch_template" "desafio_AWS_clientes" {
   vpc_security_group_ids = [ 
     aws_security_group.desafio_AWS_clientes.id 
   ]
+
+  user_data = filebase64("../APIs/clientes.sh")
 
   tags = var.tags
 }
@@ -54,6 +57,14 @@ resource "aws_security_group" "desafio_AWS_clientes" {
     description = "HTTP Port"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/24"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/24"]
   }
