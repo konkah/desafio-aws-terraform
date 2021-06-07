@@ -1,19 +1,3 @@
-data "aws_ami" "bastion" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
 resource "aws_instance" "desafio_AWS_a" {
   ami                         = data.aws_ami.bastion.id
   key_name                    = aws_key_pair.bastion_key.key_name
@@ -86,6 +70,22 @@ output "bastion_c" {
   value = aws_instance.desafio_AWS_c.public_ip
 }
 
+data "aws_ami" "bastion" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
 resource "aws_security_group" "allow_ssh_bastion" {
   description = "Allow SSH Bastion Host"
   vpc_id      = aws_vpc.desafio_AWS.id
@@ -108,9 +108,4 @@ resource "aws_security_group" "allow_ssh_bastion" {
   tags = {
     Name = "SSH_AWS_bastion"
   }
-}
-
-resource "aws_key_pair" "bastion_key" {
-  key_name   = "bastion_key_pub"
-  public_key = file("../Keys/bastion_key.pub")
 }

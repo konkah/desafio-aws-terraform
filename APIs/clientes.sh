@@ -16,16 +16,21 @@ mv desafio-api-clientes-main/api_clientes/* /var/www
 rm -r desafio-api-clientes-main
 rm project.zip
 
+sudo chmod 777 api_clientes/address.py
+echo "CLIENTES_RDS = 'mysql-api-clientes.cxycaymkd24m.us-east-1.rds.amazonaws.com'" > api_clientes/address.py
+
 sudo apt install -y python3.8
+sudo apt update
+sudo apt upgrade -y
 sudo apt install python3-pip -y
 sudo apt install python3-dev -y 
 sudo apt install libmysqlclient-dev -y
 
-python3 -m pip install -U pip
-python3 -m pip install -U setuptools
-python3 -m pip install -U wheel
-python3 -m pip install -r requirements.txt
+sudo python3 -m pip install -U pip
+sudo python3 -m pip install -U setuptools
+sudo python3 -m pip install -U wheel
+sudo python3 -m pip install -r requirements.txt
 
-nohup python3 manage.py runserver
+nohup sudo python3 manage.py runserver
 
 echo "finished" > status.log
